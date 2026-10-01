@@ -1,0 +1,56 @@
+name: Sync Binaries to Release
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 3 * * 0'   # 每周日凌晨 3 点自动同步
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Download all binaries
+        run: |
+          mkdir -p binaries
+          set +e
+          
+          while IFS='|' read -r URL NAME; do
+            [[ -z "$URL" || "$URL" =~ ^[[:space:]]*# ]] && continue
+            
+            URL_TRIMMED=$(echo "$URL" | xargs)
+            NAME_TRIMMED=$(echo "$NAME" | xargs)
+            
+            echo "===================================================="
+            echo "下载: $NAME_TRIMMED"
+            echo "  从: $URL_TRIMMED"
+            echo "===================================================="
+            
+            if curl -fL --retry 3 -o "binaries/$NAME_TRIMMED" "$URL_TRIMMED"; then
+              ls -lh "binaries/$NAME_TRIMMED"
+            else
+              echo "❌ 下载失败: $URL_TRIMMED"
+              rm -f "binaries/$NAME_TRIMMED"
+            fi
+            echo
+          done < binaries.txt
+          
+          echo "最终文件列表："
+          ls -lh binaries/
+      
+      - name: Publish to Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: mirror-latest
+          name: "Binary Mirror (auto-updated)"
+          body: "自动同步的二进制镜像。最新一次更新：${{ github.run_id }}"
+          files: binaries/*
+          fail_on_unmatched_files: false
+          make_latest: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
