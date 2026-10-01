@@ -1,0 +1,15 @@
+# 个人二进制镜像清单
+# 格式：下载URL|保存文件名
+# 说明：每行一个文件，| 前是下载地址，| 后是保存在 Release 里的名字
+# 添加新二进制：在文件末尾加一行，提交后 Actions 会自动下载
+
+# ========== K8s 工具 ==========
+https://github.com/kubernetes-sigs/kind/releases/download/v0.24.0/kind-linux-amd64|kind-linux-amd64
+https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl|kubectl
+https://get.helm.sh/helm-v3.16.0-linux-amd64.tar.gz|helm-v3.16.0-linux-amd64.tar.gz
+
+# ========== AI 工具 ==========
+https://github.com/ollama/ollama/releases/latest/download/ollama-linux-amd64|ollama-linux-amd64
+
+# ========== 其他工具 ==========
+https://github.com/google/go-containerregistry/releases/download/v0.22.1/go-containerregistry_Linux_x86_64.tar.gz|crane-linux-x86_64.tar.gz
