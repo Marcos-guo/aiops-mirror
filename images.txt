@@ -1,0 +1,19 @@
+# 个人镜像镜像仓库清单
+# 格式：上游镜像名|本仓库中的名字
+# 说明：每行一个镜像，| 前是源，| 后是目标名（可自定义）
+# 添加新镜像：在文件末尾加一行，提交后 Actions 会自动同步
+
+# ========== AIOps / 监控 ==========
+robustadev/robusta-runner:0.44.0|robusta-runner:0.44.0
+robustadev/holmes:latest|holmes:latest
+ghcr.io/k8sgpt-ai/k8sgpt:latest|k8sgpt:latest
+ghcr.io/k8sgpt-ai/k8sgpt-operator:latest|k8sgpt-operator:latest
+
+# ========== AI 推理 ==========
+ollama/ollama:latest|ollama:latest
+vllm/vllm-openai:latest|vllm-openai:latest
+ghcr.io/open-webui/open-webui:main|open-webui:main
+
+# ========== 向量数据库 ==========
+milvusdb/milvus:latest|milvus:latest
+qdrant/qdrant:latest|qdrant:latest
